@@ -5,6 +5,6 @@ package com.keenanzucker.photostream;
  */
 public interface ImageCallback {
 
-    public void //something with callback.....
+    void callback(boolean success); //probably should add some things around here, yo!
 
 }

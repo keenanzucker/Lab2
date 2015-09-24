@@ -2,6 +2,7 @@ package com.keenanzucker.photostream;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +37,18 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
                String searchText = editText.getText().toString();
                HttpHandler handler = new HttpHandler(MainActivity.this);
-               handler.searchSpotify("searchText"); //put in image callback thang, notify adapter change or something
+               handler.searchForImages("dog", new ImageCallback() {
+                   @Override
+                   public void callback(boolean success) {
+                       if (success) {
+                           Log.d("Success", Boolean.toString(success));
+                           // continue
+                       } else {
+                           Log.d("Failure", Boolean.toString(success));
+                           // handle failure
+                       }
+                   }
+               }); //put in image callback thang, notify adapter change or something
            }
         });
     }

@@ -9,10 +9,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
+import com.google.api.client.json.Json;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -27,6 +27,49 @@ public class HttpHandler {
         queue = Volley.newRequestQueue(context);
     }
 
+    public void searchForImages(String searchQuery, final ImageCallback callback) {
+
+        String query = searchQuery.replaceAll(" ", "+");
+
+        String url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDNzr6WCi5Dr6wN0K1_XMq7y1rvh12tIXw&cx=017978864744009989256:mqpurlr0zw4";
+        url = url + "&q=" + query;
+
+        JSONObject body = new JSONObject();
+        try {
+            body.put("random", "thing"); // unnecessary, but I wanted to show you how to include body data
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                body,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        ArrayList<String> imageSRC = new ArrayList<>();
+                        callback.callback(true);
+                        //Log.d("Success", "Yay!"); //use Log.d for normal stuff
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.callback(false);
+                        //Log.e("Error", error.getMessage());
+                    }
+                }
+
+        );
+
+        queue.add(request);
+    }
+
+
+}
+    /*
     public void searchSpotify(String searchQuery ){ //add in the callback class?
 
         String query = searchQuery.replaceAll(" ", "+");
@@ -72,7 +115,5 @@ public class HttpHandler {
         };
 
         queue.add(request);
+    }*/
 
-
-    }
-}
