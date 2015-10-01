@@ -3,9 +3,11 @@ package com.keenanzucker.photostream;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
@@ -34,6 +36,23 @@ public class StreamFragment extends Fragment {
 
         GridView gv = (GridView) view.findViewById(R.id.gridview);
         gv.setAdapter(new GridViewAdapter(getActivity()));
+
+        gv.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapter,
+                                                   View item, int pos, long id) {
+                        // Remove the item within array at position
+                        GridView gv = (GridView) view.findViewById(R.id.gridview);
+                        GridViewAdapter gva = (GridViewAdapter) gv.getAdapter();
+                        // Refresh the adapter
+                        gva.removeURLs(pos);
+                        // Return true consumes the long click event (marks it handled)
+                        return true;
+                    }
+                }
+        );
+
     }
 
     final class GridViewAdapter extends BaseAdapter {
@@ -44,7 +63,13 @@ public class StreamFragment extends Fragment {
         public GridViewAdapter(Context context) {
             this.context = context;
 
+
             urls.addAll(addURLs());
+        }
+
+        public void update()
+        {
+            this.notifyDataSetChanged();
         }
 
         @Override public View getView(int position, View convertView, ViewGroup parent) {
@@ -63,8 +88,8 @@ public class StreamFragment extends Fragment {
                     .fit() //
                     .centerCrop()
                     .into(view);
-
             return view;
+
         }
 
         @Override public int getCount() {
@@ -81,6 +106,12 @@ public class StreamFragment extends Fragment {
 
         public ArrayList<String> addURLs (){
             return testURLs;
+        }
+
+        public void removeURLs (int pos){
+
+                urls.remove(pos);
+                notifyDataSetChanged();
         }
     }
 
