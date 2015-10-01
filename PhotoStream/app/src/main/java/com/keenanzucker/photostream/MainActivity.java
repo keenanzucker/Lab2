@@ -1,70 +1,49 @@
 package com.keenanzucker.photostream;
 
+import android.app.Fragment;
+import android.content.Context;
+import android.provider.ContactsContract;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Button;
-
+import android.widget.TextView;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import static android.widget.ImageView.ScaleType.CENTER_CROP;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editText;
-    Button button;
-    //ListView listView;
-    ArrayAdapter adapter;
-    ArrayList<String> tracks = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_search);
+        setContentView(R.layout.mainactivity);   // Modify so changing between fragment views!
+        //setContentView(R.layout.fragment_stream);
 
-        editText = (EditText)findViewById(R.id.editText);
-        button = (Button)findViewById(R.id.button);
-        //listView = (ListView)findViewById(R.id.listView);
-        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        Fragment searchFrag = new SearchFragment();
+        Fragment streamFrag = new StreamFragment();
 
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.container, searchFrag);
+        transaction.commit();
 
-
-        button.setOnClickListener(new View.OnClickListener(){
-           @Override
-            public void onClick(View v) {
-               String searchText = editText.getText().toString();
-               HttpHandler handler = new HttpHandler(MainActivity.this);
-               handler.searchForImages(searchText, new ImageCallback() {
-                   @Override
-                   public void callback(ArrayList<String> imageSRC) {
-
-                       String url1 = imageSRC.get(0);
-                       Picasso.with(MainActivity.this)
-                               .load(url1)
-                               .into(imageView);
-
-//                       if () {
-//                           //Log.d("Success", Boolean.toString(success));
-//                           // continue
-//                       } else {
-//                           //Log.d("Failure", Boolean.toString(success));
-//                           // handle failure
-//                       }
-                   }
-               });
-
-               //adapter.notifyDataSetChanged();
-           }
-        });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
