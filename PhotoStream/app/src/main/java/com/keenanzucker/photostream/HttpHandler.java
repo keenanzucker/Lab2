@@ -16,6 +16,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import javax.xml.transform.Result;
+
 /**
  * Created by keenan on 9/17/15.
  */
@@ -33,14 +35,14 @@ public class HttpHandler {
 
         String url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDNzr6WCi5Dr6wN0K1_XMq7y1rvh12tIXw&cx=017978864744009989256:mqpurlr0zw4";
         url = url + "&q=" + query;
-
+        url = url + "&searchType=image";
+        
         JSONObject body = new JSONObject();
         try {
             body.put("random", "thing"); // unnecessary, but I wanted to show you how to include body data
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -50,15 +52,28 @@ public class HttpHandler {
                     @Override
                     public void onResponse(JSONObject response) {
                         ArrayList<String> imageSRC = new ArrayList<>();
-                        callback.callback(true);
-                        //Log.d("Success", "Yay!"); //use Log.d for normal stuff
+
+                        try {
+                            JSONArray Results = (JSONArray) response.get("items");
+
+                            for (int i = 0; i < Results.length(); i++)
+                            {
+                                JSONObject image;
+                                image = (JSONObject) Results.get(i);
+                                imageSRC.add((String) image.get("link"));
+                            }
+                            callback.callback(imageSRC);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        callback.callback(false);
-                        //Log.e("Error", error.getMessage());
+                        Log.e("Error", error.getMessage());
                     }
                 }
 

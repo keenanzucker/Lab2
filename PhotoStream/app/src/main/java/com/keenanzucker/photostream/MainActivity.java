@@ -8,47 +8,59 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Button;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
     EditText editText;
     Button button;
-    ListView listView;
+    //ListView listView;
     ArrayAdapter adapter;
     ArrayList<String> tracks = new ArrayList<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fragment_search);
 
         editText = (EditText)findViewById(R.id.editText);
         button = (Button)findViewById(R.id.button);
-        listView = (ListView)findViewById(R.id.listView);
+        //listView = (ListView)findViewById(R.id.listView);
+        final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
+
 
         button.setOnClickListener(new View.OnClickListener(){
            @Override
-        public void onClick(View v) {
+            public void onClick(View v) {
                String searchText = editText.getText().toString();
                HttpHandler handler = new HttpHandler(MainActivity.this);
-               handler.searchForImages("dog", new ImageCallback() {
+               handler.searchForImages(searchText, new ImageCallback() {
                    @Override
-                   public void callback(boolean success) {
-                       if (success) {
-                           Log.d("Success", Boolean.toString(success));
-                           // continue
-                       } else {
-                           Log.d("Failure", Boolean.toString(success));
-                           // handle failure
-                       }
+                   public void callback(ArrayList<String> imageSRC) {
+
+                       String url1 = imageSRC.get(0);
+                       Picasso.with(MainActivity.this)
+                               .load(url1)
+                               .into(imageView);
+
+//                       if () {
+//                           //Log.d("Success", Boolean.toString(success));
+//                           // continue
+//                       } else {
+//                           //Log.d("Failure", Boolean.toString(success));
+//                           // handle failure
+//                       }
                    }
-               }); //put in image callback thang, notify adapter change or something
+               });
+
+               //adapter.notifyDataSetChanged();
            }
         });
     }
