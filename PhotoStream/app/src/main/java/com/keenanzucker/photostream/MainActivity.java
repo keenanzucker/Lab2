@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SearchFragment.onLibraryListener {
+public class MainActivity extends AppCompatActivity implements SearchFragment.onLibraryListener, StreamFragment.onBackButtonListener {
 
     public ArrayList<String> imageURLs = new ArrayList<>();
     Button libraryButton;
@@ -60,6 +60,13 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.on
     public void onLibrary(){
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, new StreamFragment())
+                .commit();
+    }
+
+    @Override
+    public void onBackButton(){
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, new SearchFragment())
                 .commit();
     }
 }

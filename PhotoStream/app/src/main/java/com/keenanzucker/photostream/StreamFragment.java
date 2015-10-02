@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 
 import com.squareup.picasso.Picasso;
@@ -21,10 +22,17 @@ import static android.widget.ImageView.ScaleType.CENTER_CROP;
 public class StreamFragment extends Fragment {
 
     ArrayList<String> testURLs = new ArrayList<>();
+    onBackButtonListener mBackButtonListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.fragment_stream, container, false);
+    }
+
+    @Override
+    public void onAttach(Context activity){
+        super.onAttach(activity);
+        mBackButtonListener = (onBackButtonListener) activity;
     }
 
     @Override
@@ -34,8 +42,13 @@ public class StreamFragment extends Fragment {
         testURLs.add("http://www.safeoffleashdogplay.com/wp-content/uploads/2013/05/Puppy-3-dogs.jpg");
         testURLs.add("http://bebusinessed.com/wp-content/uploads/2014/03/734899052_13956580111.jpg");
 
+        Button backToSearchButton;
         GridView gv = (GridView) view.findViewById(R.id.gridview);
         gv.setAdapter(new GridViewAdapter(getActivity()));
+
+        backToSearchButton = (Button)view.findViewById(R.id.button3);
+
+
 
         gv.setOnItemLongClickListener(
                 new AdapterView.OnItemLongClickListener() {
@@ -53,7 +66,20 @@ public class StreamFragment extends Fragment {
                 }
         );
 
+
+        backToSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBackButtonListener.onBackButton();
+            }
+        });
+
     }
+
+    public interface onBackButtonListener {
+        public void onBackButton();
+    }
+
 
     final class GridViewAdapter extends BaseAdapter {
 
