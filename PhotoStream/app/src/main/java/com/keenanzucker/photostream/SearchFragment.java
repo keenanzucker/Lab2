@@ -1,5 +1,6 @@
 package com.keenanzucker.photostream;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,13 +22,20 @@ public class SearchFragment extends Fragment {
     Button searchButton;
     Button nextButton;
     Button saveButton;
+    Button libraryButton;
     int nextImage = 0;
-    ArrayList<String> imageURLs = new ArrayList<>(); //will turn into database
+    onLibraryListener mLibraryListener;
+    //ArrayList<String> imageURLs = new ArrayList<>(); //will turn into database
+
+    @Override
+    public void onAttach(Context activity){
+        super.onAttach(activity);
+        mLibraryListener = (onLibraryListener) activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.fragment_search, container, false);
-
     }
 
     @Override
@@ -36,6 +44,7 @@ public class SearchFragment extends Fragment {
         editText = (EditText)view.findViewById(R.id.editText);
         searchButton = (Button)view.findViewById(R.id.button);
         nextButton = (Button)view.findViewById(R.id.button2);
+        libraryButton = (Button)view.findViewById(R.id.button5);
         saveButton = (Button)view.findViewById(R.id.button4);
         final ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
 
@@ -87,13 +96,23 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void callback(ArrayList<String> imageSRC) {
                         String url1 = imageSRC.get(nextImage);
-                        imageURLs.add(url1);
+                        ((MainActivity)getActivity()).imageURLs.add(url1);
                     }
                 });
             }
         });
 
+        libraryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLibraryListener.onLibrary();
+            }
+        });
 
+    }
+
+    public interface onLibraryListener {
+        public void onLibrary();
     }
 
 }

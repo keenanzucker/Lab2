@@ -62,14 +62,7 @@ public class StreamFragment extends Fragment {
 
         public GridViewAdapter(Context context) {
             this.context = context;
-
-
             urls.addAll(addURLs());
-        }
-
-        public void update()
-        {
-            this.notifyDataSetChanged();
         }
 
         @Override public View getView(int position, View convertView, ViewGroup parent) {
@@ -89,7 +82,6 @@ public class StreamFragment extends Fragment {
                     .centerCrop()
                     .into(view);
             return view;
-
         }
 
         @Override public int getCount() {
@@ -109,7 +101,6 @@ public class StreamFragment extends Fragment {
         }
 
         public void removeURLs (int pos){
-
                 urls.remove(pos);
                 notifyDataSetChanged();
         }

@@ -7,7 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-public class MainActivity extends AppCompatActivity {
+import android.view.View;
+import android.widget.Button;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements SearchFragment.onLibraryListener {
+
+    public ArrayList<String> imageURLs = new ArrayList<>();
+    Button libraryButton;
 
 
     @Override
@@ -21,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.container, streamFrag);
+        transaction.replace(R.id.container, searchFrag);
         transaction.commit();
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -46,5 +54,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLibrary(){
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, new StreamFragment())
+                .commit();
     }
 }
