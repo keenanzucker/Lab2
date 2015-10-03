@@ -3,6 +3,7 @@ package com.keenanzucker.photostream;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,8 @@ public class SearchFragment extends Fragment {
     Button libraryButton;
     int nextImage = 0;
     onLibraryListener mLibraryListener;
-    //ArrayList<String> imageURLs = new ArrayList<>(); //will turn into database
+    DbHelper dbHelper;
+    ArrayList<String> imageURLs = new ArrayList<>(); //will turn into database
 
     @Override
     public void onAttach(Context activity){
@@ -33,6 +35,12 @@ public class SearchFragment extends Fragment {
         mLibraryListener = (onLibraryListener) activity;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        dbHelper = new DbHelper(getActivity());
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.fragment_search, container, false);
@@ -58,12 +66,12 @@ public class SearchFragment extends Fragment {
                     public void callback(ArrayList<String> imageSRC) {
 
                         String url1 = imageSRC.get(0);
+                        imageURLs.add(url1);
                         Picasso.with(getActivity())
                                 .load(url1)
                                 .into(imageView);
                     }
                 });
-
             }
         });
 
@@ -79,6 +87,7 @@ public class SearchFragment extends Fragment {
                     public void callback(ArrayList<String> imageSRC) {
 
                         String url1 = imageSRC.get(nextImage);
+                        imageURLs.add(url1);
                         Picasso.with(getActivity())
                                 .load(url1)
                                 .into(imageView);
@@ -90,15 +99,9 @@ public class SearchFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                String searchText = editText.getText().toString();
-                HttpHandler handler = new HttpHandler(getActivity());
-                handler.searchForImages(searchText, new ImageCallback() {
-                    @Override
-                    public void callback(ArrayList<String> imageSRC) {
-                        String url1 = imageSRC.get(nextImage);
-                        ((MainActivity)getActivity()).imageURLs.add(url1);
-                    }
-                });
+                Log.d(imageURLs.get(nextImage), "string");
+                dbHelper.saveImage(imageURLs.get(nextImage));
+
             }
         });
 

@@ -23,12 +23,20 @@ public class StreamFragment extends Fragment {
 
     ArrayList<String> testURLs = new ArrayList<>();
     onBackButtonListener mBackButtonListener;
+    DbHelper dbHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.fragment_stream, container, false);
+
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        dbHelper = new DbHelper(getActivity());
+    }
     @Override
     public void onAttach(Context activity){
         super.onAttach(activity);
@@ -38,9 +46,12 @@ public class StreamFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState)
     {
-        testURLs.add("https://www.petfinder.com/wp-content/uploads/2012/11/dog-how-to-select-your-new-best-friend-thinkstock99062463.jpg");
-        testURLs.add("http://www.safeoffleashdogplay.com/wp-content/uploads/2013/05/Puppy-3-dogs.jpg");
-        testURLs.add("http://bebusinessed.com/wp-content/uploads/2014/03/734899052_13956580111.jpg");
+//        testURLs.add("https://www.petfinder.com/wp-content/uploads/2012/11/dog-how-to-select-your-new-best-friend-thinkstock99062463.jpg");
+//        testURLs.add("http://www.safeoffleashdogplay.com/wp-content/uploads/2013/05/Puppy-3-dogs.jpg");
+//        testURLs.add("http://bebusinessed.com/wp-content/uploads/2014/03/734899052_13956580111.jpg");
+
+        testURLs = dbHelper.getSavedImages();
+
 
         Button backToSearchButton;
         GridView gv = (GridView) view.findViewById(R.id.gridview);
@@ -127,7 +138,12 @@ public class StreamFragment extends Fragment {
         }
 
         public void removeURLs (int pos){
+                String url = urls.get(pos);
+
+                dbHelper.deleteImage(url);
+
                 urls.remove(pos);
+
                 notifyDataSetChanged();
         }
     }
