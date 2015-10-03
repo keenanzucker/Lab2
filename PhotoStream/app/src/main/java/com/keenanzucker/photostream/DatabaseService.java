@@ -1,16 +1,14 @@
 package com.keenanzucker.photostream;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.media.Image;
-import android.util.Log;
-
-import java.util.ArrayList;
 
 /**
  * Created by keenan on 10/2/15.
+ * Database service class sets up the SQL database and creates the simple table that holds
+ * image URLs.
+ * Also deals with upgrading and downgrading of database.
  */
 
 

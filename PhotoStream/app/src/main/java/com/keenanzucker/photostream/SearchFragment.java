@@ -1,6 +1,5 @@
 package com.keenanzucker.photostream;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +10,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.content.Context;
-
-import com.google.api.services.customsearch.model.Search;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
+/**
+ * Fragment for view that searches for images and displays them one by one.
+ * Each image has the choice of saving or moving to the next one. Both are handled with button listeners.
+ * Also has a button to access the photo library which displays the gridview of saved images.
+ * Connects to SQL database to save the urls of the saved images to pull later.
+ * Uses Picasso library to load images into imageView
+ *
+ */
 public class SearchFragment extends Fragment {
 
     EditText editText;
@@ -41,6 +45,7 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         dbHelper = new DbHelper(getActivity());
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         return inflater.inflate(R.layout.fragment_search, container, false);
@@ -67,7 +72,7 @@ public class SearchFragment extends Fragment {
 
                         String url1 = imageSRC.get(0);
                         imageURLs.add(url1);
-                        Picasso.with(getActivity())
+                        Picasso.with(getActivity()) //Use Picasso Library to load images
                                 .load(url1)
                                 .into(imageView);
                     }
@@ -101,7 +106,6 @@ public class SearchFragment extends Fragment {
             public void onClick(View v) {
                 Log.d(imageURLs.get(nextImage), "string");
                 dbHelper.saveImage(imageURLs.get(nextImage));
-
             }
         });
 
@@ -111,11 +115,9 @@ public class SearchFragment extends Fragment {
                 mLibraryListener.onLibrary();
             }
         });
-
     }
 
     public interface onLibraryListener {
         public void onLibrary();
     }
-
 }

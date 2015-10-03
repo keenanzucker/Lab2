@@ -4,6 +4,7 @@ import android.provider.BaseColumns;
 
 /**
  * Created by keenan on 10/2/15.
+ * Image Contract class implements BaseColumns and stores database table variables.
  */
 public class ImageContract {
 

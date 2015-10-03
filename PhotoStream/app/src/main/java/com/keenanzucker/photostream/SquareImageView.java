@@ -2,6 +2,7 @@ package com.keenanzucker.photostream;
 
 /**
  * Created by keenan on 10/1/15.
+ * Custom ImageView that makes images nice square images to load into gridview for viewing pleasure.
  */
 import android.content.Context;
 import android.util.AttributeSet;

@@ -7,22 +7,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import java.util.ArrayList;
-
+/**
+ * Main Activity for Photostream Application.
+ * Uses two Fragments, SearchFragment that searches for images and displays images one by one, offering choices
+ * to go the next image, save the image, or access the image library.
+ * The image library is contained in StreamFragment, which steams the saved images in a gridview. Images can be deleted with
+ * a long click. Contains an option to go back to the searchFragment as well.
+ *
+ * Main Activity contains transitions to each fragments
+ */
 public class MainActivity extends AppCompatActivity implements SearchFragment.onLibraryListener, StreamFragment.onBackButtonListener {
-
-    public ArrayList<String> imageURLs = new ArrayList<>();
-    Button libraryButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity);   // Modify so changing between fragment views!
-        //setContentView(R.layout.fragment_stream);
 
         Fragment searchFrag = new SearchFragment();
         Fragment streamFrag = new StreamFragment();

@@ -11,7 +11,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:text="@string/search"
         android:id="@+id/button"
         android:layout_alignTop="@+id/textView"
         android:layout_alignParentRight="true"
@@ -22,7 +22,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="45dp"
         android:layout_below="@+id/button"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         />
 
@@ -39,7 +42,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="@string/nextButton"
         android:id="@+id/button2"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
@@ -49,7 +52,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/saveButton"
         android:id="@+id/button4"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -65,7 +68,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Library"
+        android:text="@string/libraryButton"
         android:id="@+id/button5"
         android:layout_alignBottom="@+id/button4"
         android:layout_centerHorizontal="true" />

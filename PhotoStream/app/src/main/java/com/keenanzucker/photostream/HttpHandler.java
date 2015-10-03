@@ -2,24 +2,23 @@ package com.keenanzucker.photostream;
 
 import android.content.Context;
 import android.util.Log;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.api.client.json.Json;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import javax.xml.transform.Result;
 
 /**
  * Created by keenan on 9/17/15.
+ * Connects to the Google Custom Search. Takes in the search entry and queries a google image search.
+ * Uses the callback interface to return the arraylist of image urls.
+ * Gets a JSON object from the Google search and parses through the json to add the image url/link to the arraylist
  */
 public class HttpHandler {
 
@@ -39,7 +38,7 @@ public class HttpHandler {
         
         JSONObject body = new JSONObject();
         try {
-            body.put("random", "thing"); // unnecessary, but I wanted to show you how to include body data
+            body.put("random", "thing");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -62,7 +61,7 @@ public class HttpHandler {
                                 image = (JSONObject) Results.get(i);
                                 imageSRC.add((String) image.get("link"));
                             }
-                            callback.callback(imageSRC);
+                            callback.callback(imageSRC);        //Use callback interface to return arraylist of URLs.
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
@@ -76,7 +75,6 @@ public class HttpHandler {
                         Log.e("Error", error.getMessage());
                     }
                 }
-
         );
 
         queue.add(request);

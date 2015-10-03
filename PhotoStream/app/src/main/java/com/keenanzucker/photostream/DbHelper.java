@@ -4,11 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import java.util.ArrayList;
 
 /**
  * Created by keenan on 10/2/15.
+ * Database helper used to save images, retrieve the saved images, and delete images from the SQL database
+ * Database is simple table that holds saved image URLs.
  */
 public class DbHelper{
 
